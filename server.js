@@ -10,9 +10,14 @@ const pokemon = require("./models/pokemon");
 app.set('view engine', 'jsx');
 app.engine('jsx', jsxEngine());
 
-app.get('/pokemon', function (req, res) {
+app.get('/', function (req, res) {
     res.send('Welcome to the Pokemon App!');
 });
+
+app.get('/pokemon', function (req, res) {
+    res.send(pokemon);
+});
+
 
 app.listen(3000, () => {
     console.log('listening');
