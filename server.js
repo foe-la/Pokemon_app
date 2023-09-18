@@ -3,6 +3,7 @@ const app = express();
 const port = 3000;
 const jsxEngine = require('jsx-view-engine');
 
+
 // data
 const pokemon = require("./models/pokemon");
 
@@ -15,8 +16,12 @@ app.get('/', function (req, res) {
 });
 
 app.get('/pokemon', function (req, res) {
-    res.send(pokemon);
+    res.render('Index');
 });
+
+// app.get('/pokemon/:indexOfPokemonArray', function(req, res){
+//     res.render('Show');
+// });        
 
 
 app.listen(3000, () => {
