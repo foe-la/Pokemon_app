@@ -19,10 +19,11 @@ app.get('/pokemon', function (req, res) {
     res.render('Index');
 });
 
-// app.get('/pokemon/:indexOfPokemonArray', function(req, res){
-//     res.render('Show');
-// });        
-
+app.get('/pokemon/:id', function(req, res){
+    res.render('Show', {
+        pokemon: pokemon[req.params.id],
+    });
+});       
 
 app.listen(3000, () => {
     console.log('listening');

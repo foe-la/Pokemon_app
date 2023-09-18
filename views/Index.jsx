@@ -11,6 +11,9 @@ class Index extends React.Component {
         return (
             <div style={myStyle}>
                 <h1> See All The Pokemon! </h1>
+                <ul>
+                    { pokemon.name }
+                </ul>
             </div>
         );
     }
