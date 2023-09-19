@@ -10,7 +10,7 @@ const React = require('react')
           <h1> Gotta Catch Em All! </h1>
           <h2>{ pokemon.name }</h2>
           <img src={ pokemon.img + ".jpg" } alt="Pokemon IMG" />
-          <a href='/index'>back</a>
+          <a href='/pokemon'>back</a>
           </div>
          );
         }
