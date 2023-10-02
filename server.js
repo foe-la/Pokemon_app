@@ -2,7 +2,22 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const jsxEngine = require('jsx-view-engine');
+const mongoose = require("mongoose");
+require("dotenv").config();
 
+// method-override
+const methodOverride = require("method-override");
+
+app.use(methodOverride("_method"));
+
+//connect to db
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+mongoose.connection.once("open", () => {
+  console.log("connected to mongo");
+});
 
 // data
 const pokemon = require("./models/pokemon");
@@ -23,32 +38,51 @@ app.get('/', function (req, res) {
     res.send('Welcome to the Pokemon App!');
 });
 
-app.get('/pokemon', function (req, res) {
-    res.render('Index', {pokemon: pokemon});
-});
+// index route
+app.get("/pokemon/", async function (req, res) {
+    try {
+      const pokemon = await pokemon.find();
+      res.render("Index", { pokemon: pokemon });
+    } catch (error) {
+      console.error(error);
+    }
+  });
 
-app.get('/Index', function (req, res) {
-    res.redirect('Index');
-});
+// delete
+app.delete("/pokemon/:id", async function (req, res) {
+    try {
+      await pokemon.findByIdAndRemove(req.params.id);
+      res.redirect("/pokemon"); 
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
 // New - get the form to add a new pokemon
-app.get('/pokemon/new', (req, res) => {
+app.get('/pokemon/new', function (req, res) {
     res.render('New');
 });
 
 // Create pokemon
-app.post('/pokemon/New', (req, res) => {
-    pokemon.push(req.body);
-    console.log(pokemon);
+app.post('/pokemon/New', async  function (req, res) {
+    try {
+    await pokemon.create(req.body);
     res.redirect('/pokemon');
+    } catch(error) {
+     console.log(pokemon);   
+    }
+    
 });
-
-app.get('/pokemon/:id', function(req, res){
-    res.render('Show', {
-        pokemon: pokemon[req.params.id],
-    });
+// show
+app.get('/pokemon/:id', async function (req, res){
+    try{
+        const pokemon = await Pokemon.findById(req.params.id);
+    res.render('Show', { pokemon: pokemon });
+    } catch (error) {
+        console.log(error);
+    }
 });       
 
-app.listen(3000, () => {
+app.listen(3001, () => {
     console.log('listening');
 });

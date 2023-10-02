@@ -1,3 +1,15 @@
+//import Mongoose db
+const mongoose = require("mongoose");
+
+//create Schema
+const pokemonSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  img: { type: String, required: true },
+});
+
+//create model based on Schema
+exports.Pokemon = mongoose.model("Pokemon", pokemonSchema);
+
 const pokemon = [
     {name: "bulbasaur", img: "http://img.pokemondb.net/artwork/bulbasaur"},
     {name: "ivysaur", img: "http://img.pokemondb.net/artwork/ivysaur"},
